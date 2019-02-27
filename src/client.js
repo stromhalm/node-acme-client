@@ -237,14 +237,16 @@ class AcmeClient {
      * @returns {Promise<object[]>} Authorizations
      */
 
-    getAuthorizations(order) {
-        return Promise.map((order.authorizations || []), async (url) => {
+    async getAuthorizations(order) {
+        let data = [];
+        for (let url of (order.authorizations || [])) {
             const resp = await this.api.getAuthorization(url);
 
             /* Add URL to response */
             resp.data.url = url;
-            return resp.data;
-        });
+            data.push(resp.data);
+        }
+        return data;
     }
 
 

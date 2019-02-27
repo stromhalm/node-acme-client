@@ -82,7 +82,9 @@ module.exports = async function(client, userOpts) {
 
     debug('[auto] Resolving and satisfying authorization challenges');
 
-    const challengePromises = authorizations.map(async (authz) => {
+    // const challengePromises = authorizations.map(async (authz) => {
+
+    const challengeFunction = async (authz) => {
         const d = authz.identifier.value;
 
         /* Select challenge based on priority */
@@ -125,11 +127,13 @@ module.exports = async function(client, userOpts) {
                 debug(`[auto] [${d}] challengeRemoveFn threw error: ${e.message}`);
             }
         }
-    });
+    };
 
     debug('[auto] Waiting for challenge valid status');
-    await Promise.all(challengePromises);
 
+    for (let authz of authorizations) {
+        await challengeFunction(authz);
+    }
 
     /**
      * Finalize order and download certificate
