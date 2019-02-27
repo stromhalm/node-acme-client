@@ -32,6 +32,7 @@
         "rimraf": "^2.6.2"
     },
     "scripts": {
+        "prepare": "rimraf lib/ && babel -d lib/ src/",
         "babel": "rimraf lib/ && babel -d lib/ src/",
         "docs": "jsdoc2md src/client.js > docs/client.md && jsdoc2md src/crypto/openssl.js > docs/openssl.md && jsdoc2md src/crypto/forge.js > docs/forge.md",
         "lint": "eslint .",
